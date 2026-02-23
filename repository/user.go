@@ -8,9 +8,9 @@ import (
 
 func GetTokenByDocument(ctx context.Context, document string) (string, error) {
 	var token string
-	// todo: montar token
+	// TODO: Esse código retorna o ID do cliente como Token. Isso é apenas um placeholder até a implementação real
 	err := database.DB.QueryRowContext(ctx,
-		"SELECT id FROM users WHERE cpf_cnpj = $1",
+		"SELECT id FROM customer WHERE cpf_cnpj = $1",
 		document,
 	).Scan(&token)
 
