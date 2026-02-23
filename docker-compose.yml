@@ -15,4 +15,4 @@ services:
 
 networks:
     garage-network:
-        driver: bridge
+        external: true
