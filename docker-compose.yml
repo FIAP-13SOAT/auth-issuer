@@ -15,4 +15,5 @@ services:
 
 networks:
     garage-network:
+        name: garage_network
         external: true

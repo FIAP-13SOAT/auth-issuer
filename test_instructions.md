@@ -57,7 +57,7 @@ aws --endpoint-url=http://localhost:4566 lambda create-function \
 aws --endpoint-url=http://localhost:4566 lambda invoke \
   --function-name IssuerLambda \
   --cli-binary-format raw-in-base64-out \
-  --payload '{"document":"12345678900"}' \
+  --payload '{"document":"033.326.420-73"}' \
   --region sa-east-1 \
   response.json
 
