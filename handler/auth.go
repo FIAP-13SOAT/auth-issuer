@@ -4,9 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"strings"
+
 	"example.com/tech-challange-auth-issuer/models"
 	"example.com/tech-challange-auth-issuer/repository"
-	"strings"
+	"example.com/tech-challange-auth-issuer/service"
 )
 
 func AuthHandler(ctx context.Context, input models.Input) (models.Output, error) {
@@ -14,9 +16,18 @@ func AuthHandler(ctx context.Context, input models.Input) (models.Output, error)
 		return models.Output{}, errors.New("O campo 'document' é obrigatório")
 	}
 
-	token, err := repository.GetTokenByDocument(ctx, input.Document)
+	customerID, err := repository.GetId(ctx, input.Document)
 	if err == sql.ErrNoRows {
 		return models.Output{}, errors.New("Usuário não encontrado")
+	}
+	if err != nil {
+		return models.Output{}, err
+	}
+
+	token, err := service.Generate(customerID)
+
+	if err == sql.ErrNoRows {
+		return models.Output{}, errors.New("Ocorreu um erro desconhecido, por favor tente novamente.")
 	}
 	if err != nil {
 		return models.Output{}, err
