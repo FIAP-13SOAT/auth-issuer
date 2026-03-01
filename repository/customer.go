@@ -6,12 +6,12 @@ import (
 	"example.com/tech-challange-auth-issuer/database"
 )
 
-func GetId(ctx context.Context, document string) (string, error) {
-	var token string
+func GetCustomerID(ctx context.Context, document string) (string, error) {
+	var customerID string
 	err := database.DB.QueryRowContext(ctx,
 		"SELECT id FROM customer WHERE cpf_cnpj = $1",
 		document,
-	).Scan(&token)
+	).Scan(&customerID)
 
-	return token, err
+	return customerID, err
 }
