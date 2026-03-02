@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"example.com/tech-challange-auth-issuer/config"
+	"com.fiapchallenge/tech-challange-auth-issuer/config"
 	_ "github.com/lib/pq"
 )
 

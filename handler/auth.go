@@ -6,10 +6,10 @@ import (
 	"errors"
 	"strings"
 
-	"example.com/tech-challange-auth-issuer/models"
-	"example.com/tech-challange-auth-issuer/repository"
-	"example.com/tech-challange-auth-issuer/service"
-	"example.com/tech-challange-auth-issuer/validator"
+	"com.fiapchallenge/tech-challange-auth-issuer/models"
+	"com.fiapchallenge/tech-challange-auth-issuer/repository"
+	"com.fiapchallenge/tech-challange-auth-issuer/service"
+	"com.fiapchallenge/tech-challange-auth-issuer/validator"
 )
 
 func AuthHandler(ctx context.Context, input models.Input) (models.Output, error) {

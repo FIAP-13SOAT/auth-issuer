@@ -1,9 +1,9 @@
 package repository
 
 import (
+	"com.fiapchallenge/tech-challange-auth-issuer/database"
 	"context"
 	_ "database/sql"
-	"example.com/tech-challange-auth-issuer/database"
 )
 
 func GetId(ctx context.Context, document string) (string, error) {

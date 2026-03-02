@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"example.com/tech-challange-auth-issuer/config"
+	"com.fiapchallenge/tech-challange-auth-issuer/config"
 	"github.com/golang-jwt/jwt/v5"
 )
 
