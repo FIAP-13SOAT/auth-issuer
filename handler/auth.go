@@ -9,7 +9,6 @@ import (
 	"example.com/tech-challange-auth-issuer/models"
 	"example.com/tech-challange-auth-issuer/repository"
 	"example.com/tech-challange-auth-issuer/service"
-	"example.com/tech-challange-auth-issuer/validator"
 )
 
 func AuthHandler(ctx context.Context, input models.Input) (models.Output, error) {
@@ -17,11 +16,7 @@ func AuthHandler(ctx context.Context, input models.Input) (models.Output, error)
 		return models.Output{}, errors.New("O campo 'document' é obrigatório")
 	}
 
-	if !validator.IsValidDocument(input.Document) {
-		return models.Output{}, errors.New("CPF/CNPJ inválido")
-	}
-
-	customerID, err := repository.GetCustomerID(ctx, input.Document)
+	customerID, err := repository.GetId(ctx, input.Document)
 	if err == sql.ErrNoRows {
 		return models.Output{}, errors.New("Usuário não encontrado")
 	}
@@ -29,7 +24,7 @@ func AuthHandler(ctx context.Context, input models.Input) (models.Output, error)
 		return models.Output{}, err
 	}
 
-	token, err := service.GenerateToken(customerID)
+	token, err := service.Generate(customerID)
 
 	if err == sql.ErrNoRows {
 		return models.Output{}, errors.New("Ocorreu um erro desconhecido, por favor tente novamente.")

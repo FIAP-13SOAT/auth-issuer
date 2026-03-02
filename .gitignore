@@ -1,27 +1,13 @@
-# Binários
 bootstrap
-main
+
 function.zip
 
 go.mod
 
 go.sum
 
-# Testes
+main
+
 response.json
-coverage.out
-*.test
 
-# Ambiente
-.env
-
-# IDEs
 .idea
-.vscode
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
