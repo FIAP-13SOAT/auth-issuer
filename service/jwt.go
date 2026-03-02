@@ -8,7 +8,7 @@ import (
 
 var jwtSecret = []byte("CHANGE_ME_SUPER_SECRET")
 
-func Generate(customerID string) (string, error) {
+func GenerateToken(customerID string) (string, error) {
 	claims := jwt.RegisteredClaims{
 		Subject:  customerID,
 		Issuer:   "tech-challange-auth-issuer",

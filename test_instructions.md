@@ -46,7 +46,7 @@ aws --endpoint-url=http://localhost:4566 lambda create-function \
   --role arn:aws:iam::000000000000:role/lambda-role \
   --handler bootstrap \
   --zip-file fileb://function.zip \
-  --environment '{"Variables":{"ENVIRONMENT":"dev","DB_HOST_DEV":"garage-postgres","DB_PORT_DEV":"5432","DB_USER_DEV":"secret","DB_PASSWORD_DEV":"secret","DB_NAME_DEV":"garage"}}' \
+  --environment '{"Variables":{"ENVIRONMENT":"dev","DB_HOST_DEV":"garage-postgres","DB_PORT_DEV":"5432","DB_USER_DEV":"secret","DB_PASSWORD_DEV":"secret","DB_NAME_DEV":"garage", "JWT_SECRET": "123"}}' \
   --region sa-east-1
 ```
 
