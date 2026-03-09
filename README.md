@@ -1,0 +1,69 @@
+# Tech Challenge - Auth Issuer
+
+Lambda function para autenticação de clientes via CPF/CNPJ, retornando um token JWT.
+
+## 📋 Descrição
+
+Serviço serverless que autentica clientes consultando o banco de dados PostgreSQL e retorna um token JWT para acesso aos demais serviços.
+
+## 🏗️ Arquitetura
+
+```
+┌─────────────┐      ┌──────────────┐      ┌────────────┐
+│   Cliente   │─────▶│    Lambda    │─────▶│ PostgreSQL │
+│             │◀─────│ Auth Issuer  │◀─────│    (RDS)   │
+└─────────────┘      └──────────────┘      └────────────┘
+   CPF/CNPJ              JWT Token           Validação
+```
+
+## 🚀 Tecnologias
+
+- **Go 1.25** - Linguagem de programação
+- **AWS Lambda** - Execução serverless
+- **PostgreSQL** - Banco de dados
+- **LocalStack** - Ambiente de desenvolvimento local
+
+## 📁 Estrutura do Projeto
+
+```
+tech-challange-auth-issuer/
+├── main.go              # Entry point da Lambda
+├── database/
+│   └── db.go           # Configuração do banco de dados
+├── handler/
+│   └── auth.go         # Lógica de autenticação
+├── repository/
+│   └── user.go         # Queries do banco
+├── models/
+│   └── types.go        # Structs de entrada/saída
+└── README.md
+```
+
+## 🔧 Configuração
+
+### Variáveis de Ambiente
+
+**Desenvolvimento:**
+```bash
+ENVIRONMENT=dev
+DB_HOST_DEV=garage-postgres
+DB_PORT_DEV=5432
+DB_USER_DEV=secret
+DB_PASSWORD_DEV=secret
+DB_NAME_DEV=garage
+```
+
+**Produção:**
+```bash
+ENVIRONMENT=prod
+DB_HOST_PROD=<rds-endpoint>
+DB_PORT_PROD=5432
+DB_USER_PROD=<user>
+DB_PASSWORD_PROD=<password>
+DB_NAME_PROD=<database>
+```
+
+
+## Como Testar localmente
+
+Instruções para teste localmente [aqui](test_instructions.md)
