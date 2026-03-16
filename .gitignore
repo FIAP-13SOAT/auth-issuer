@@ -2,10 +2,6 @@ bootstrap
 
 function.zip
 
-go.mod
-
-go.sum
-
 main
 
 response.json
