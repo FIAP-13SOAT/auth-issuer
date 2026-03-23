@@ -17,7 +17,7 @@ func Init() {
 		panic(fmt.Sprintf("Erro ao carregar configuração: %v", err))
 	}
 
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=require",
 		cfg.Database.Host,
 		cfg.Database.Port,
 		cfg.Database.User,
