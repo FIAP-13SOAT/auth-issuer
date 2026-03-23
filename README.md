@@ -64,6 +64,54 @@ DB_NAME_PROD=<database>
 ```
 
 
+## 📖 Documentação da API
+
+A documentação completa da API está disponível como coleção Postman em [`docs/postman_collection.json`](docs/postman_collection.json). Importe o arquivo no [Postman](https://www.postman.com/) para testar os endpoints interativamente.
+
+### `POST /login`
+
+Autentica um cliente pelo CPF ou CNPJ e retorna um token JWT.
+
+**Request Body:**
+
+```json
+{
+  "document": "12345678900"
+}
+```
+
+| Campo      | Tipo   | Obrigatório | Descrição                          |
+|------------|--------|-------------|------------------------------------|
+| `document` | string | Sim         | CPF (11 dígitos) ou CNPJ (14 dígitos) do cliente |
+
+**Respostas:**
+
+| Código | Descrição                  | Body                                                        |
+|--------|----------------------------|-------------------------------------------------------------|
+| `200`  | Autenticação bem-sucedida  | `{ "token": "<JWT>" }`                                      |
+| `400`  | Documento inválido ou vazio | `{ "message": "O campo 'document' é obrigatório" }` ou `{ "message": "CPF/CNPJ inválido" }` |
+| `404`  | Usuário não encontrado     | `{ "message": "Usuário não encontrado" }`                   |
+
+**Formato do Token JWT:**
+
+O token retornado é um JWT assinado contendo o `customer_id` do cliente autenticado. Utilize-o no header `Authorization: Bearer <token>` para acessar os endpoints protegidos da aplicação principal.
+
+**Exemplo com cURL:**
+
+```bash
+curl -X POST https://<api-gateway-url>/login \
+  -H "Content-Type: application/json" \
+  -d '{"document": "12345678900"}'
+```
+
+**Resposta de sucesso:**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
 ## Como Testar localmente
 
 Instruções para teste localmente [aqui](test_instructions.md)
