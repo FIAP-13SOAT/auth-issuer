@@ -82,5 +82,5 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           aws lambda update-function-code \
-            --function-name garage-auth-issuer \
+            --function-name GarageAuthIssuerFunction \
             --image-uri $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
