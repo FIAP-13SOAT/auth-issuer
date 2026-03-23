@@ -1,9 +1,9 @@
 module com.fiapchallenge/tech-challange-auth-issuer
 
-go 1.23.4
+go 1.22
 
 require (
-	github.com/aws/aws-lambda-go v1.53.0
-	github.com/golang-jwt/jwt/v5 v5.3.1
-	github.com/lib/pq v1.11.2
+	github.com/aws/aws-lambda-go v1.47.0
+	github.com/golang-jwt/jwt/v5 v5.2.2
+	github.com/lib/pq v1.10.9
 )
