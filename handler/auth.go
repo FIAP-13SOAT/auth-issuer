@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"errors"
 	"strings"
 
 	"com.fiapchallenge/tech-challange-auth-issuer/models"
