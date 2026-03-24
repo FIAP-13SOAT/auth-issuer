@@ -7,6 +7,10 @@ import (
 )
 
 func main() {
-	database.Init()
-	lambda.Start(handler.AuthHandler)
+	if handler.IsValidator() {
+		lambda.Start(handler.ValidatorHandler)
+	} else {
+		database.Init()
+		lambda.Start(handler.AuthHandler)
+	}
 }

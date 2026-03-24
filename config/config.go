@@ -30,36 +30,38 @@ func Load() (*Config, error) {
 	env := getEnv("ENVIRONMENT", "dev")
 	envUpper := strings.ToUpper(env)
 
+	jwtSecret := os.Getenv("JWT_SECRET")
+	if jwtSecret == "" {
+		return nil, fmt.Errorf("JWT_SECRET não configurado")
+	}
+
+	cfg := &Config{
+		Environment: env,
+		JWT: JWTConfig{
+			Secret:     jwtSecret,
+			Issuer:     "tech-challange-auth-issuer",
+			Expiration: 15,
+		},
+	}
+
+	// DB config é opcional (validator não precisa)
 	dbHost := os.Getenv(fmt.Sprintf("DB_HOST_%s", envUpper))
 	dbPort := os.Getenv(fmt.Sprintf("DB_PORT_%s", envUpper))
 	dbUser := os.Getenv(fmt.Sprintf("DB_USER_%s", envUpper))
 	dbPassword := os.Getenv(fmt.Sprintf("DB_PASSWORD_%s", envUpper))
 	dbName := os.Getenv(fmt.Sprintf("DB_NAME_%s", envUpper))
 
-	if dbHost == "" || dbPort == "" || dbUser == "" || dbPassword == "" || dbName == "" {
-		return nil, fmt.Errorf("variáveis de ambiente do banco de dados não configuradas para ambiente: %s", env)
-	}
-
-	jwtSecret := os.Getenv("JWT_SECRET")
-	if jwtSecret == "" {
-		return nil, fmt.Errorf("JWT_SECRET não configurado")
-	}
-
-	return &Config{
-		Environment: env,
-		Database: DatabaseConfig{
+	if dbHost != "" && dbPort != "" && dbUser != "" && dbPassword != "" && dbName != "" {
+		cfg.Database = DatabaseConfig{
 			Host:     dbHost,
 			Port:     dbPort,
 			User:     dbUser,
 			Password: dbPassword,
 			Name:     dbName,
-		},
-		JWT: JWTConfig{
-			Secret:     jwtSecret,
-			Issuer:     "tech-challange-auth-issuer",
-			Expiration: 15,
-		},
-	}, nil
+		}
+	}
+
+	return cfg, nil
 }
 
 func getEnv(key, fallback string) string {
