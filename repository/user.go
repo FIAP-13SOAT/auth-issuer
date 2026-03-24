@@ -7,12 +7,26 @@ import (
 )
 
 func GetCustomerIdByDocument(ctx context.Context, document string) (string, error) {
+	// Normaliza o documento removendo pontuação
+	cleaned := cleanDocument(document)
+
 	var id string
 	err := database.DB.QueryRowContext(ctx,
-		"SELECT id FROM customer WHERE cpf_cnpj = $1",
-		document,
+		"SELECT id FROM customer WHERE REPLACE(REPLACE(REPLACE(cpf_cnpj, '.', ''), '-', ''), '/', '') = $1",
+		cleaned,
 	).Scan(&id)
 	return id, err
+}
+
+// cleanDocument remove pontuação do CPF/CNPJ
+func cleanDocument(doc string) string {
+	result := ""
+	for _, c := range doc {
+		if c >= '0' && c <= '9' {
+			result += string(c)
+		}
+	}
+	return result
 }
 
 type UserInfo struct {
