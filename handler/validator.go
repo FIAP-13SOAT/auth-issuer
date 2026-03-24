@@ -34,8 +34,17 @@ func ValidatorHandler(ctx context.Context, request events.APIGatewayV2CustomAuth
 
 	sub, _ := claims.GetSubject()
 	role := claims.Role
+	path := request.RawPath
+	method := request.RequestContext.HTTP.Method
 
-	log.Printf("Token válido: sub=%s, role=%s", sub, role)
+	log.Printf("Token válido: sub=%s, role=%s, path=%s, method=%s", sub, role, path, method)
+
+	// CUSTOMER só pode acessar rotas específicas
+	if role == "CUSTOMER" && !isCustomerAllowed(path, method) {
+		log.Printf("Acesso negado: CUSTOMER não pode acessar %s %s", method, path)
+		return denyResponse(), nil
+	}
+
 	return allowResponse(sub, role), nil
 }
 
@@ -85,4 +94,28 @@ func denyResponse() events.APIGatewayV2CustomAuthorizerSimpleResponse {
 
 func IsValidator() bool {
 	return os.Getenv("LAMBDA_MODE") == "validator"
+}
+
+// isCustomerAllowed define quais rotas o CUSTOMER pode acessar.
+// Rotas permitidas:
+//   - GET /vehicles, POST /vehicles, GET/PUT/DELETE /vehicles/{id}
+//   - GET /service-types
+//   - GET /public/*
+func isCustomerAllowed(path string, method string) bool {
+	// Veículos — CRUD completo
+	if strings.HasPrefix(path, "/vehicles") {
+		return true
+	}
+
+	// Tipos de serviço — apenas leitura
+	if path == "/service-types" && method == "GET" {
+		return true
+	}
+
+	// Rotas públicas
+	if strings.HasPrefix(path, "/public/") {
+		return true
+	}
+
+	return false
 }
